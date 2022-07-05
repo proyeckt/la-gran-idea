@@ -65,6 +65,7 @@ const Joboffer = () => {
     const getJobFromService = async () => {
         try {
             const jobFromService = await getJob(id);
+            console.log(jobFromService.data);
             setJoboffer(jobFromService.data.joboffer);
             addCounterJob();
         } catch (err) {
