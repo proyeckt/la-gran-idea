@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Formik, Form as FormikForm } from 'formik';
 import * as Yup from 'yup';
-import { createUser } from '../services/user.service';
+import { createUser } from '../services/user.services';
 import Swal from 'sweetalert2';
 
 const UserForm = () => {

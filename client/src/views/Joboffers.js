@@ -7,6 +7,10 @@ import Container from 'react-bootstrap/esm/Container';
 import JobofferCard from '../components/JobofferCard';
 import Row from 'react-bootstrap/Row'
 
+import { authServices } from '../services/auth.services';
+
+import Button from 'react-bootstrap/esm/Button';
+
 const Joboffers = () => {
 
     const [joboffers, setJoboffers] = useState([]);
@@ -41,6 +45,7 @@ const Joboffers = () => {
                         <JobofferCard key={idx} joboffer={joboffer} idx={idx} />
                     ))}
                 </Row>
+                <Button onClick={()=> { authServices.removeToken(); navigate('/');}}>Logout</Button>
             </Container>
         </>
     )

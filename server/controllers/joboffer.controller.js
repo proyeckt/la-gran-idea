@@ -8,6 +8,7 @@ module.exports.createJoboffer = (req, res) => {
 }
 
 module.exports.getJoboffers = (req, res) => {
+    console.log(req.userID);
     Joboffer.find()
         .then(joboffers => res.json({ joboffers }))
         .catch(err => res.status(500).json({ error: err, msg: 'Ups havent been able to bring the offers' }));
