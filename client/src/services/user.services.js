@@ -11,3 +11,7 @@ export const loginUser = (email,password) => axios.post(API_URL+'login',{
 });
 
 export const logoutUser = (_) => axios.post(API_URL+'logout');
+
+export const getUsers = () => axios.get('http://localhost:8080/api/users');
+
+export const getUserById = (id) => axios.get(API_URL+`${id}`);

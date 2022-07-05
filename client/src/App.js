@@ -11,6 +11,8 @@ import JobofferForm from './views/JobofferForm';
 import Joboffers from './views/Joboffers';
 import Joboffer from './views/Joboffer';
 import EdiJoboffer from './views/EditJoboffer';
+import Users from './views/users/Users';
+import User from './views/users/User';
 
 function App() {
 
@@ -25,6 +27,8 @@ function App() {
           <Route path="/job/:id" element={<Joboffer/>}/>;
           <Route path='/register' element={<RegisterForm/>}/>
           <Route path='/login' element={<LoginForm/>}/>
+          <Route path='/users' element={<Users/>}/>
+          <Route path='/users/:id' element={<User/>}/>
         </Routes>
       </BrowserRouter>
     </>
