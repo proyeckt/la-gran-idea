@@ -1,6 +1,47 @@
 
 const User = require('../models/user.model');
 
+const jwt = require('jsonwebtoken');
+
+require('dotenv').config();
+
+module.exports.loginUser = async (req, res) => {
+
+    const {email, password} = req.body;  
+    
+    const user = await User.findOne({email:email});
+
+    if(user){
+      const auth = await user.verifyPassword(password);
+      if(auth){
+        const token = jwt.sign(user._id.toString(),process.env.SECURE_KEY);
+
+        if(!token){
+          return res.json({
+            auth:false,
+            code: 2,
+            msg:'La solicitud no ha podido ser confirmada. Intentalo más tarde.',
+          });
+        }
+        return res.json({
+          auth:true,
+          code:0,
+          msg:'Ingreso satisfactorio.',
+          token:token
+        });
+      }
+    }
+    return res.json({
+      auth:false,
+      code: 1,
+      msg:'Los datos de correo electrónico o contraseña son incorrectos.',
+    });
+
+}
+
+module.exports.logoutUser = (req, res) => {
+    
+}
 
 module.exports.createUser = (req, res) => {
     console.log(req.body.user);

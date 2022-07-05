@@ -13,6 +13,7 @@ import Joboffer from './views/Joboffer';
 import EdiJoboffer from './views/EditJoboffer';
 
 function App() {
+
   return (
     <>
       <BrowserRouter>

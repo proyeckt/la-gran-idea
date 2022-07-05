@@ -34,6 +34,10 @@ UserSchema.pre('save', function (next) {
         });
 });
 
+UserSchema.methods.verifyPassword = function(password){
+  return bcrypt.compare(password,this.password);
+};
+
 const User = model('User', UserSchema);
 
 module.exports = User;
