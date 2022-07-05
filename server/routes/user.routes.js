@@ -6,5 +6,5 @@ module.exports = (app) => {
     app.post('/api/users/create',User.createUser);
     app.delete('/api/users/delete/all',User.deleteAll);
     app.get('/api/users',User.getUsers);
-    app.get('api/users/:id',User.getUserById);
+    app.get('/api/users/:id',User.getUserById);
 }
