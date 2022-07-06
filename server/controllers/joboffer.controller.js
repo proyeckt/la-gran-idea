@@ -33,6 +33,7 @@ module.exports.updateJob = (req, res) => {
 }
 
 module.exports.addVisitsCounter = (req, res) => {
+    console.log(req.params.id);
     Joboffer.findByIdAndUpdate(req.params.id, {$inc: { visits: 1} }, { new: true }  )
     .then(addVisists => res.json({ addVisists }))
     .catch(err => res.status(500).json({ msg: 'No se pudo actualizar las visitas', error: err }))

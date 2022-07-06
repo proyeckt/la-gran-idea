@@ -8,5 +8,5 @@ module.exports = (app) => {
     app.get('/api/job/:id',validateToken,Joboffer.getJobById);
     app.delete('/api/joboffer/delete/:id',validateToken,Joboffer.deleteJob);
     app.put('/api/joboffer/edit/:id',validateToken,Joboffer.updateJob);
-    app.put('/api/joboffer/add-visists/:id',validateToken,Joboffer.addVisitsCounter);
+    app.put('/api/joboffer/add-visists/:id',Joboffer.addVisitsCounter);
 }
