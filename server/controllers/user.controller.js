@@ -55,3 +55,15 @@ module.exports.deleteAll = async (req, res) => {
         .then(deleted => res.json({deleted}))
         .catch(err => res.status(500).json({ error: err, msg: 'Ups havent been able to create the user' }));
 }
+
+module.exports.getUsers = (req, res) => {
+  User.find()
+      .then(users => res.json({ users }))
+      .catch(err => res.status(500).json({ error: err, msg: 'Ups havent been able to bring the users' }))
+}
+
+module.exports.getUserById = (req, res) => {
+  User.findById(req.params.id)
+      .then(user => res.json({ user }))
+      .catch(err => res.status(404).json({ error: err, msg: 'Ups havent been able to bring the user' }));
+}

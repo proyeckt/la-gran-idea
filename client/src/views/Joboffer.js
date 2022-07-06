@@ -66,6 +66,7 @@ const Joboffer = () => {
         try {
             const jobFromService = await getJob(id);
             setJoboffer(jobFromService.data.joboffer);
+            console.log(jobFromService.data.joboffer);
             addCounterJob();
         } catch (err) {
             Swal.fire({
