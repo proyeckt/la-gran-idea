@@ -23,8 +23,8 @@ const Joboffers = () => {
     const getjoboffersFromService = async () => {
         try {
             let jobOffersFromService = await getJoboffers();
-            console.log(jobOffersFromService.data.joboffers);
             setJoboffers(jobOffersFromService.data.joboffers);
+
         } catch (err) {
             Swal.fire({
                 title: 'Ups!',
@@ -45,7 +45,7 @@ const Joboffers = () => {
                         <JobofferCard key={idx} joboffer={joboffer} idx={idx} />
                     ))}
                 </Row>
-                <Button onClick={()=> { authServices.removeToken(); navigate('/');}}>Logout</Button>
+                <Button onClick={() => { authServices.removeToken(); navigate('/'); }}>Logout</Button>
             </Container>
         </>
     )
