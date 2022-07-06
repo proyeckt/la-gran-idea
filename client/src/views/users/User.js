@@ -20,7 +20,11 @@ const User = () => {
     const getUserFromService = async () => {
         try {
             const userFromService = await getUserById(id);
-            setUser(userFromService.data.user);
+            if(userFromService.data.user){
+                setUser(userFromService.data.user);
+            }else {
+                navigate('/not-found');
+            }  
         }
         catch (err) {
             console.log(err);

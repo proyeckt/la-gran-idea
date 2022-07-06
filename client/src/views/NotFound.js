@@ -15,15 +15,7 @@ const NotFound = () => {
             animationData: require('../assets/lotties/404.json')
         })
     },[])
-
-    // const defaultOptions = {
-    //     loop: true,
-    //     autoplay: true,
-    //     animationData: animationData,
-    //     rendererSettings: {
-    //         preserveAspectRatio: "xMidYMid slice"
-    //     }
-    // };
+    
     return (
         <>
             <Header/>
