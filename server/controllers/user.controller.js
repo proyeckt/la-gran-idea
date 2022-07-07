@@ -1,5 +1,5 @@
-
 const User = require('../models/user.model');
+const Role = require('../models/role.model');
 
 const jwt = require('jsonwebtoken');
 
@@ -9,32 +9,39 @@ module.exports.loginUser = async (req, res) => {
 
     const {email, password} = req.body;  
     
-    const user = await User.findOne({email:email});
+    const user = await User.findOne({email:email}).populate("roles");
 
     if(user){
       const auth = await user.verifyPassword(password);
       if(auth){
-        const token = jwt.sign(user._id.toString(),process.env.SECURE_KEY);
+        const token = jwt.sign({id:user._id},process.env.SECURE_KEY,{
+          expiresIn:86400 // value in ms equal to 24h
+        });
 
         if(!token){
           return res.json({
             auth:false,
-            code: 2,
+            code: 3,
             msg:'La solicitud no ha podido ser confirmada. Intentalo más tarde.',
           });
         }
         return res.json({
           auth:true,
           code:0,
-          msg:'Ingreso satisfactorio.',
+          msg:'Ingreso exitoso.',
           token:token
         });
       }
+      return res.json({
+        auth:false,
+        code: 1,
+        msg:'La contraseña ingresada es incorrecta. Intenta nuevamente.',
+      });
     }
     return res.json({
       auth:false,
-      code: 1,
-      msg:'Los datos de correo electrónico o contraseña son incorrectos.',
+      code: 2,
+      msg:'El correo electrónico ingresado no se encuentra registrado.',
     });
 
 }
@@ -43,11 +50,25 @@ module.exports.logoutUser = (req, res) => {
     
 }
 
-module.exports.createUser = (req, res) => {
-    console.log(req.body.user);
-    User.create(req.body.user)
-        .then(newUser => res.json({ newUser }))
-        .catch(err => res.status(500).json({ error: err, msg: 'Ups havent been able to create the user' }));
+module.exports.createUser = async (req, res) => {
+    try{
+      const newUser = new User(req.body.user);
+      if (req.body.user.roles){
+        const foundRoles = await Role.find({name:{$in: req.body.user.roles}});
+        newUser.roles = foundRoles.map(role => role._id);
+      }
+      else{
+        const defaultRole = await Role.findOne({name:"user"});
+        newUser.roles = [defaultRole._id];
+      }
+
+      const savedUser = await newUser.save();
+      console.log(savedUser);
+      return res.json({status:true,code: 0, msg: "El registro se ha completado  exitosamente.",user:savedUser});
+    }
+    catch(err){
+      res.status(500).json({status:false, code: 3, msg: 'No ha podido realizarse el registro. Intenta nuevamente',error: err});
+    }
 }
 
 module.exports.deleteAll = async (req, res) => {

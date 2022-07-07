@@ -2,6 +2,7 @@ const Joboffer = require('../models/joboffer.model');
 
 
 module.exports.createJoboffer = (req, res) => {
+    console.log(req.body.joboffer);
     Joboffer.create(req.body.joboffer)
         .then(newJoboffer => res.json({ newJoboffer }))
         .catch(err => res.status(500).json({ error: err, msg: 'Ups havent been able to create the offer' }));
@@ -29,12 +30,11 @@ module.exports.deleteJob= (req, res) => {
 module.exports.updateJob = (req, res) => {
     Joboffer.findByIdAndUpdate(req.params.id, req.body.joboffer, { new: true })
         .then(updateJoboffer => res.json({ updateJoboffer }))
-        .catch(err => res.status(500).json({ msg: 'Ups no hemos podido actualizar el Dojo', error: err }))
+        .catch(err => res.status(500).json({ msg: 'Ups no hemos podido actualizar el Dojo', error: err }));
 }
 
 module.exports.addVisitsCounter = (req, res) => {
-    console.log(req.params.id);
-    Joboffer.findByIdAndUpdate(req.params.id, {$inc: { visits: 1} }, { new: true }  )
+  Joboffer.findByIdAndUpdate(req.params.id, {$inc: { visits: 1} }, { new: true }  )
     .then(addVisists => res.json({ addVisists }))
-    .catch(err => res.status(500).json({ msg: 'No se pudo actualizar las visitas', error: err }))
+    .catch(err => res.status(500).json({ msg: 'No se pudo actualizar las visitas', error: err }));
 }

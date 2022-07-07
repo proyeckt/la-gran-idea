@@ -23,8 +23,12 @@ const UserSchema = new Schema({
     },
     description: {
         type: String,
-    }
-}, { timestamps: true });
+    },
+    roles: [{
+      ref: "Role",
+      type: Schema.Types.ObjectId
+    }]
+}, { timestamps: true, versionKey: false });
 
 UserSchema.pre('save', function (next) {
     bcrypt.hash(this.password, 10)
