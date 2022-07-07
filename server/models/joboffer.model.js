@@ -27,7 +27,7 @@ const JobofferSchema = new Schema({
         type: String,
         required: [true, 'Debe tener experiencia']
     },
-});
+}, {versionKey: false});
 
 const Joboffer = model('Joboffer', JobofferSchema);
 

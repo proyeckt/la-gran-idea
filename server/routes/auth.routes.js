@@ -3,5 +3,5 @@ const {
  } = require('../controllers/auth.controller');
 
 module.exports = (app) => {
-    app.post('/api/users/validate',validateToken);
+    app.post('/api/auth/validate',validateToken);
 }
