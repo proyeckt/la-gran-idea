@@ -27,7 +27,10 @@ const UserSchema = new Schema({
     roles: [{
       ref: "Role",
       type: Schema.Types.ObjectId
-    }]
+    }],
+    verified: {
+      type: Boolean
+    }
 }, { timestamps: true, versionKey: false });
 
 UserSchema.pre('save', function (next) {

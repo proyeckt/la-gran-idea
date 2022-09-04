@@ -1,9 +1,11 @@
 const User = require('../models/user.model');
 const Role = require('../models/role.model');
 
-const jwt = require('jsonwebtoken');
+const UserVerification = require('../models/userVerification.model');
 
-require('dotenv').config();
+const EmailController = require('./email.controller');
+
+const jwt = require('jsonwebtoken');
 
 module.exports.loginUser = async (req, res) => {
 
@@ -12,6 +14,15 @@ module.exports.loginUser = async (req, res) => {
     const user = await User.findOne({email:email}).populate("roles");
 
     if(user){
+      //verify it's an verified user first
+      if(!user.verified){
+        return res.json({
+            auth:false,
+            code: 4,
+            msg:'El usuario no ha sido verificado todavia. Revisa tu email y verifica tu cuenta.',
+          });
+      }
+
       const auth = await user.verifyPassword(password);
       if(auth){
         const token = jwt.sign({id:user._id},process.env.SECURE_KEY,{
@@ -61,9 +72,13 @@ module.exports.createUser = async (req, res) => {
         const defaultRole = await Role.findOne({name:"user"});
         newUser.roles = [defaultRole._id];
       }
-
+      newUser.verified = false;
       const savedUser = await newUser.save();
+
       console.log(savedUser);
+      const ans = await EmailController.sendVerificationEmail(savedUser,res);
+      console.log(ans);
+      
       return res.json({status:true,code: 0, msg: "El registro se ha completado  exitosamente.",user:savedUser});
     }
     catch(err){
